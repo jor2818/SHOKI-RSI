@@ -12,6 +12,19 @@
 </head>
 <body>
 
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>คำเตือน!</strong> {{ msg }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     {% block content%}{% endblock%}
     
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script> 

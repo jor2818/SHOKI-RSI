@@ -12,7 +12,7 @@ class User(db.Model):
         self.hash_password = bcrypt.generate_password_hash(password)
         
     def __repr__(self):
-        return f"User({self.username},{self.email},{self.password})"
+        return f"User({self.username},{self.email},{self.hash_password})"
     
     def check_password(self, password):
         return bcrypt.check_password_hash(self.hash_password, password)

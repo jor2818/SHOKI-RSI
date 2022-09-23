@@ -11,3 +11,4 @@ def home():
 @views.route("/signup")
 def signup():
     return render_template('signup.html', name="SIGNUP")
+
