@@ -74,7 +74,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-    font-family: 'Tavirajregular', serif;
+    font-family: 'tavirajregular', serif;
 	font-size: 20px;
 }
 ol, ul {
@@ -92,3 +92,36 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+.form-signup {
+    width: 100%;
+    max-width: 630px;
+    padding: 15px;
+    margin: auto;
+  }
+  
+.form-signup .checkbox {
+    font-weight: 400;
+  }
+  
+.form-signup .form-floating:focus-within {
+    z-index: 2;
+  }
+
+.form-signup input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+.form-signup input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  
+.form-signup input[type="password"] {
+    margin-bottom: -1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }

@@ -24,7 +24,7 @@ def create_app():
     Migrate(app,db)
     
     
-    #from .views import views
+    from .views import views
     #from .tripgen import tripgen
     #from .tripdist import tripdist
     #from .tripass import tripass
@@ -33,7 +33,7 @@ def create_app():
     #from .shortpath import shortpath
 
     # create the Views Blueprint
-    #app.register_blueprint(views, url_prefix='/')
+    app.register_blueprint(views, url_prefix='/')
     #app.register_blueprint(tripgen, url_prefix='/')
     #app.register_blueprint(tripdist, url_prefix='/')
     #app.register_blueprint(tripass, url_prefix='/')
