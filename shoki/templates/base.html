@@ -12,14 +12,23 @@
 </head>
 <body>
 
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
-            {% for msg in messages %}
+            {% for category, msg in messages %}
 
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>คำเตือน!</strong> {{ msg }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+                {% if category == 'danger' %}
+
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>เกิดความผิดพลาด!</strong> {{ msg }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% else %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>ประสบความสำเร็จ!</strong> {{ msg }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                {% endif %}
 
             {% endfor %}
         {% endif %}

@@ -14,20 +14,20 @@ def adduser():
         con_password = request.form['password_2']
         
         if len(username)<2:
-            flash("ชื่อผู้ใช้ควรมีมากกว่า 2 ตัวอักษร กรุณากรอกอีกครั้ง!!!")
+            flash("ชื่อผู้ใช้ควรมีมากกว่า 2 ตัวอักษร กรุณากรอกอีกครั้ง!!!", "danger")
 
         elif len(email)<7:
-            flash("อีเมลล์ไม่ถูกต้อง กรุณากรอกอีกครั้ง!!!")
+            flash("อีเมลล์ไม่ถูกต้อง กรุณากรอกอีกครั้ง!!!", "danger")
         
         elif password != con_password:
-            flash("รหัสผ่านไม่ตรงกัน กรุณากรองอีกครั้ง!!!")
+            flash("รหัสผ่านไม่ตรงกัน กรุณากรองอีกครั้ง!!!", "danger")
             
         else:
             # generate hash password
             user = User(username=username,email=email,password=password)
             db.session.add(user)
             db.session.commit()
-            flash("ขอบคุณที่ลงทะเบียนเข้าใช้")
+            flash('ขอบคุณที่ลงทะเบียนเข้าใช้', 'success')
             return redirect(url_for('views.home'))
             
     return redirect(url_for('views.signup'))
@@ -46,17 +46,17 @@ def login():
             if user.check_password(password):
                 session['username'] = user.username
                 session.permanent = True
-                flash('ลงชื่อเข้าใช้ประสบความสำเร็จ')
+                flash('ยินดีต้อนรับสู่แอพลิเคชั่น','success')
                 return render_template('dash.html', name='DASHBOARD')
             else:
-                flash('รหัสไม่ถูกต้อง โปรดลองอีกครั้ง')
+                flash('รหัสไม่ถูกต้อง โปรดลองอีกครั้ง','danger')
         else:       
-            flash('อีเมลล์ไม่ถูกต้องหรือไม่คุณยังไม่ได้ลงทะเบียนเข้าใช้')
+            flash('อีเมลล์ไม่ถูกต้องหรือไม่คุณยังไม่ได้ลงทะเบียนเข้าใช้','danger')
         
     return render_template('home.html')
 
 @auth.route('/logoff')
 def logoff():
-    flash('คุณได้ออกจากแอปพลิเคชั่นแล้ว ขอบคุณที่ใช้บริการ')
+    flash('คุณได้ออกจากแอพลิเคชั่นแล้ว ขอบคุณที่ใช้บริการ', 'success')
     session.clear()
     return redirect(url_for('views.home'))

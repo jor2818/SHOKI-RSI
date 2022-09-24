@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_bcrypt import Bcrypt
 import secrets
+from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
      
@@ -16,6 +17,7 @@ secret_key_hash = bcrypt.generate_password_hash(secret_key)
 app.config['SECRET_KEY'] = secret_key_hash
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir,'data.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.permanent_session_lifetime = timedelta(minutes=30)
 # build database
 db = SQLAlchemy(app)
 Migrate(app,db)
