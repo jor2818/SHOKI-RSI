@@ -23,7 +23,10 @@ def adduser():
             flash("รหัสผ่านไม่ตรงกัน กรุณากรองอีกครั้ง!!!", "danger")
             
         else:
-            # generate hash password
+            user = User.query.filter_by(email=email).first()
+            if user:
+                flash('อีเมลล์นี้มีการใช้งานในแอพลิเคชันแล้ว กรุณาเปลี่ยนอีเมลล์','danger')
+                return redirect(url_for('views.signup'))
             user = User(username=username,email=email,password=password)
             db.session.add(user)
             db.session.commit()
@@ -40,7 +43,6 @@ def login():
         password = request.form['password']
         
         user = User.query.filter_by(email=email).first()
-        print(user)
         
         if user is not None:
             if user.check_password(password):
