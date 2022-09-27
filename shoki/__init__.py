@@ -25,7 +25,7 @@ Migrate(app,db)
 
 from .views import views
 from .auth import auth
-#from .tripdist import tripdist
+from .rsi import rsi
 #from .tripass import tripass
 #from .eetrip import eetrip
 #from .me import me
@@ -34,7 +34,7 @@ from .auth import auth
 # create the Views Blueprint
 app.register_blueprint(views, url_prefix='/')
 app.register_blueprint(auth, url_prefix='/')
-#app.register_blueprint(tripdist, url_prefix='/')
+app.register_blueprint(rsi, url_prefix='/')
 #app.register_blueprint(tripass, url_prefix='/')
 #app.register_blueprint(eetrip, url_prefix='/')
 #app.register_blueprint(me, url_prefix='/')

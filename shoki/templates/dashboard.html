@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> 
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <title>{% block title%}{%endblock%}</title>
+</head>
+<body>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, msg in messages %}
+
+                {% if category == 'danger' %}
+
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>เกิดความผิดพลาด!</strong> {{ msg }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% else %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>ประสบความสำเร็จ!</strong> {{ msg }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    
+
+    <header class="p-3 mb-3 border-bottom">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                <span class="fs-4">SHOKI-RSI</span>
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              {% if name == 'FORM' %}
+                  <li><a href="{{ url_for('rsi.showform') }}" class="nav-link px-2 link-secondary">แบบสำรวจ</a></li>
+              {% else %}
+                  <li><a href="{{ url_for('rsi.showform') }}" class="nav-link px-2 link-dark">แบบสำรวจ</a></li>
+              {% endif %}
+              <li><a href="#" class="nav-link px-2 link-dark">ตารางข้อมูล</a></li>
+              <li><a href="#" class="nav-link px-2 link-dark">การวิเคราะห์ข้อมูล</a></li>
+              <li><a href="#" class="nav-link px-2 link-dark">เกี่ยวกับเรา</a></li>
+            </ul>
+    
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+              <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            </form>
+    
+            <div class="dropdown text-end">
+              <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="fs-4">{{ session['username'] }}</span>
+              </a>
+              <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                <li><a class="dropdown-item" href="#">ข้อมูลส่วนตัว</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{{ url_for('auth.logoff') }}">ออกจากระบบ</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+    </header>
+
+    {% block content%}{% endblock%}
+    
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script> 
+</body>
+</html>

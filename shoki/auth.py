@@ -49,7 +49,7 @@ def login():
                 session['username'] = user.username
                 session.permanent = True
                 flash('ยินดีต้อนรับสู่แอพลิเคชั่น','success')
-                return render_template('dash.html', name='DASHBOARD')
+                return redirect(url_for('rsi.showform'))
             else:
                 flash('รหัสไม่ถูกต้อง โปรดลองอีกครั้ง','danger')
         else:       
@@ -59,6 +59,6 @@ def login():
 
 @auth.route('/logoff')
 def logoff():
-    flash('คุณได้ออกจากแอพลิเคชั่นแล้ว ขอบคุณที่ใช้บริการ', 'success')
     session.clear()
+    flash('คุณได้ออกจากแอพลิเคชั่นแล้ว ขอบคุณที่ใช้บริการ', 'success')    
     return redirect(url_for('views.home'))
