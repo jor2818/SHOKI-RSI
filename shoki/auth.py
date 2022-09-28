@@ -47,6 +47,7 @@ def login():
         if user is not None:
             if user.check_password(password):
                 session['username'] = user.username
+                session['id'] = user.id
                 session.permanent = True
                 flash('ยินดีต้อนรับสู่แอพลิเคชั่น','success')
                 return redirect(url_for('rsi.showform'))

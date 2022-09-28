@@ -17,7 +17,7 @@ secret_key_hash = bcrypt.generate_password_hash(secret_key)
 app.config['SECRET_KEY'] = secret_key_hash
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir,'data.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.permanent_session_lifetime = timedelta(minutes=30)
+app.permanent_session_lifetime = timedelta(minutes=45)
 # build database
 db = SQLAlchemy(app)
 Migrate(app,db)
