@@ -49,14 +49,25 @@
               {% else %}
                   <li><a href="{{ url_for('rsi.showform') }}" class="nav-link px-2 link-dark">แบบสำรวจ</a></li>
               {% endif %}
-              <li><a href="#" class="nav-link px-2 link-dark">ตารางข้อมูล</a></li>
-              <li><a href="#" class="nav-link px-2 link-dark">การวิเคราะห์ข้อมูล</a></li>
+              {% if name == 'TABLE' %}
+                  <li><a href="{{ url_for('rsi.showtable') }}" class="nav-link px-2 link-secondary">ตารางข้อมูล</a></li>
+              {% else %}
+                  <li><a href="{{ url_for('rsi.showtable') }}" class="nav-link px-2 link-dark">ตารางข้อมูล</a></li>
+              {% endif %}
+              {% if name == 'ANALYSIS' %}
+              <li><a href="{{ url_for('rsi.showanalysis') }}" class="nav-link px-2 link-secondary">การวิเคราะห์ข้อมูล</a></li>
+              {% else %}
+              <li><a href="{{ url_for('rsi.showanalysis') }}" class="nav-link px-2 link-dark">การวิเคราะห์ข้อมูล</a></li>
+              {% endif %}
               <li><a href="#" class="nav-link px-2 link-dark">เกี่ยวกับเรา</a></li>
             </ul>
     
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-              <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            {% if name == 'TABLE' %}
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="{{ url_for('rsi.search') }}" method=post>
+              <input type="search" class="form-control" placeholder="ค้นหา..." aria-label="Search" name ="search" value="{{ request.form.search }}">
+              <!-- <button type="submit" class="btn btn-secondary" >ค้นหา</button> -->
             </form>
+            {% endif %}
     
             <div class="dropdown text-end">
               <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">

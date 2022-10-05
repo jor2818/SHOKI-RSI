@@ -1,0 +1,165 @@
+{% extends "dashboard.html" %}
+{% block title%}{{ name }}{% endblock %}
+
+{% block content %}
+
+    <div  class="container mt-5 p-3">
+        <h1 class="text-center fw-bold" style="font-size: 30px;"><strong>แบบสำรวจปริมาณการเดินทางริมถนน</strong></h1>
+        <p class="text-center fw-bold" style="font-size: 25px;"><strong>Roadside Interview Survey Form</strong></p>
+        <br>
+        <br>
+        <form method="post">
+            <div class="form-row">
+                <div class="col">
+                  <label class="fw-bold" style="font-size: 20px;"><strong>รหัสโครงการ</strong></label>
+                  <input type="name" name="project_name" class="form-control" placeholder="รหัสโครงการ" value= "{{ rsi.project_name }}" required>
+                </div>
+                <br>
+                <div class="col">
+                  <label class="fw-bold" style="font-size: 20px;"><strong>ชื่อจุดสำรวจ</strong></label>
+                  <input type="name" name="site_name" class="form-control" placeholder="ชื่อจุดสำรวจ" value="{{ rsi.site_name }}" required>
+                </div>
+            </div>
+            <br>
+
+            <div class="radiobuttons">
+                <label class="fw-bold" style="font-size: 20px;"><strong>ทิศทางการจราจร</strong></label>
+                <br>
+                <br>
+                    <ul style="list-style: none;">
+                        <li class="radio"><input name="direction" value="1"  type="radio" class="userRatings" {% if rsi.direction == 1 %} checked {% endif %}><label>ขาเข้าเมือง</label></li>
+                        <li class="radio"><input name="direction" value="2"  type="radio" class="userRatings" {% if rsi.direction == 2 %} checked {% endif %}><label>ขาออกเมือง</label></li>
+                    </ul>
+            </div>
+            <br>
+
+            <div class="radiobuttons">
+                <p class="fw-bold" style="font-size: 20px;">ประเภทยานพาหนะ</p>
+                <br>
+                    <ul style="list-style: none;">
+                        <li class="radio"><input name="vehicle_type" value="1"  type="radio" class="userRatings" {% if rsi.vehicle_type == 1 %} checked {% endif %}><label> ประเภทที่ 1 : จักรยาน/รถจักรยานยนต์</label></li>
+                        <li class="radio"><input name="vehicle_type" value="2"  type="radio" class="userRatings" {% if rsi.vehicle_type == 2 %} checked {% endif %}><label> ประเภทที่ 2 : รถยนต์นั่งส่วนบุคคล 4 ล้อ/รถกระบะ/รถโฟวีล</label></li>
+                        <li class="radio"><input name="vehicle_type" value="3"  type="radio" class="userRatings" {% if rsi.vehicle_type == 3 %} checked {% endif %}><label> ประเภทที่ 3 : รถสองแถว 4 ล้อ/รถตู้โดยสาร/รถกะป้อ</label></li>
+                        <li class="radio"><input name="vehicle_type" value="4"  type="radio" class="userRatings" {% if rsi.vehicle_type == 4 %} checked {% endif %}><label> ประเภทที่ 4 : รถสองแถว 6 ล้อ/รถโดยสาร</label></li>
+                        <li class="radio"><input name="vehicle_type" value="5"  type="radio" class="userRatings" {% if rsi.vehicle_type == 5 %} checked {% endif %}><label> ประเภทที่ 5 : รถบรรทุก 4 ล้อ</label></li>
+                        <li class="radio"><input name="vehicle_type" value="6"  type="radio" class="userRatings" {% if rsi.vehicle_type == 6 %} checked {% endif %}><label> ประเภทที่ 6 : รถบรรทุก 6 ล้อ</label></li>
+                        <li class="radio"><input name="vehicle_type" value="7"  type="radio" class="userRatings" {% if rsi.vehicle_type == 7 %} checked {% endif %}><label> ประเภทที่ 7 : รถบรรทุก 10 ล้อ</label></li>
+                        <li class="radio"><input name="vehicle_type" value="8"  type="radio" class="userRatings" {% if rsi.vehicle_type == 8 %} checked {% endif %}><label> ประเภทที่ 8 : รถพ่วง/รถเทรเลอร์</label></li>
+                    </ul>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <p class="fw-bold" style="font-size: 20px;">จุดต้นทางการเดินทาง</p>
+                <br>
+                <label id="tumbon_o-label">ตำบล</label>
+                <input id="tumbon_o" type="name" class="form-control" name="addr1_og" placeholder="ตำบล" value="{{ rsi.addr1_og }}">
+                <label id="ampore_o-label">อำเภอ</label>
+                <input id="ampore_o" type="name" class="form-control" name="addr2_og" placeholder="อำเภอ" value="{{ rsi.addr2_og }}">
+                <label id="province_o-label">จังหวัด</label>
+                <input id="province_o" type="name" class="form-control" name="addr3_og" placeholder="จังหวัด" value="{{ rsi.addr3_og }}">
+                <label id="zone_o-label">รหัสพื้นที่</label>
+                <input id="zone_o" type="number" class="form-control" name="zone_og" placeholder="รหัสพื้นที่" value="{{ rsi.zone_og }}" required>
+            </div>
+
+            <br>
+            <div class="form-group">
+                <p class="fw-bold" style="font-size: 20px;">จุดปลายการเดินทาง</p>
+                <br>
+                <label id="tumbon_d-label">ตำบล</label>
+                <input id="tumbon_d" type="name" class="form-control" name="addr1_dn" placeholder="ตำบล" value="{{ rsi.addr1_dn }}">
+                <label id="ampore_d-label">อำเภอ</label>
+                <input id="ampore_d" type="name" class="form-control" name="addr2_dn" placeholder="อำเภอ" value="{{ rsi.addr2_dn }}">
+                <label id="province_d-label">จังหวัด</label>
+                <input id="province_d" type="name" class="form-control" name="addr3_dn" placeholder="จังหวัด" value="{{ rsi.addr3_dn }}">
+                <label id="zone_d-label">รหัสพื้นที่</label>
+                <input id="zone_d" type="number" class="form-control" name="zone_dn" placeholder="รหัสพื้นที่" value="{{ rsi.zone_dn }}" required>
+            </div>
+            <br>
+
+            <div class="radiobuttons">
+                <p class="fw-bold" style="font-size: 20px;">วัตถุประสงค์การเดินทาง</p>
+                <br>
+                  <ul style="list-style: none;">
+                    <li class="radio"><input name="trip_purpose" value="1"  type="radio" class="userRatings" {% if rsi.trip_purpose == 1 %} checked {% endif %}><label> กลับบ้าน</label></li>
+                    <li class="radio"><input name="trip_purpose" value="2"  type="radio" class="userRatings" {% if rsi.trip_purpose == 2 %} checked {% endif %}><label> ไปทำงาน</label></li>
+                    <li class="radio"><input name="trip_purpose" value="3"  type="radio" class="userRatings" {% if rsi.trip_purpose == 3 %} checked {% endif %}><label> ไปเรียนหนังสือ</label></li>
+                    <li class="radio"><input name="trip_purpose" value="4"  type="radio" class="userRatings" {% if rsi.trip_purpose == 4 %} checked {% endif %}><label> ติดต่อธุรกิจ/การค้า</label></li>
+                    <li class="radio"><input name="trip_purpose" value="5"  type="radio" class="userRatings" {% if rsi.trip_purpose == 5 %} checked {% endif %}><label> ส่งลูกหลานไปโรงเรียน</label></li>
+                    <li class="radio"><input name="trip_purpose" value="6"  type="radio" class="userRatings" {% if rsi.trip_purpose == 6 %} checked {% endif %}><label> ช็อบปิ้ง/รับประทานอาหาร/พักผ่อน</label></li>
+                    <li class="radio"><input name="trip_purpose" value="7"  type="radio" class="userRatings" {% if rsi.trip_purpose == 7 %} checked {% endif %}><label> อื่น ๆ</label></li>
+                  </ul>
+            </div>
+            <br>
+            <div class="form-group">
+                <p class="fw-bold" style="font-size: 20px;">จำนวนผู้โดยสาร(โปรดกรอกข้อมูลตามประเภทยานพาหนะ)</p>
+                <br>
+                <p class="fw-bold"><u>สำหรับยานพาหนะส่วนบุคคล(ประเภท 1 และ 2)</u></p>
+                <br>
+                <label id="passenger12-label">จำนวนผู้โดยสาร(รวมคนขับ)</label>
+                <input id="ีpassenger12" type="number" name="passenger12" class="form-control" value="{{ rsi.passenger12 }}">
+                <br>
+                <p class="fw-bold"><u>สำหรับยานพาหนะโดยสาร(ประเภท 3 และ 4)</u></p>
+                <br>
+                <ul style="list-style: none;">
+                    <li class="radio"><input name="passenger34" value="1"  type="radio" class="userRatings" {% if rsi.passenger34 == 1 %} checked {% endif %}><label> ว่าง</label></li>
+                    <li class="radio"><input name="passenger34" value="2"  type="radio" class="userRatings" {% if rsi.passenger34 == 2 %} checked {% endif %}><label> 1/4</label></li>
+                    <li class="radio"><input name="passenger34" value="3"  type="radio" class="userRatings" {% if rsi.passenger34 == 3 %} checked {% endif %}><label> 1/2</label></li>
+                    <li class="radio"><input name="passenger34" value="4"  type="radio" class="userRatings" {% if rsi.passenger34 == 4 %} checked {% endif %}><label> 3/4</label></li>
+                    <li class="radio"><input name="passenger34" value="5"  type="radio" class="userRatings" {% if rsi.passenger34 == 5 %} checked {% endif %}><label> เต็ม</label></li>
+                </ul>
+            </div>
+            <br>
+            <div class="form-group">
+                <p class="fw-bold"><u>สำหรับยานพาหนะบรรทุกสินค้า(ประเภท 5, 6, 7 และ 8)</u></p>
+                <br>
+                <label id="passenger58-label">จำนวนผู้โดยสาร(รวมคนขับ)</label>
+                <input id="ีpassenger58" type="number" name="passenger58" class="form-control" value="{{ rsi.passenger58 }}">
+                <br>
+                <p>ชนิดสินค้า</p>
+                <br>
+                <ul style="list-style: none;">
+                    <li class="radio"><input name="cargo_type" value="1"  type="radio" class="userRatings" {% if rsi.cargo_type == 1 %} checked {% endif %} ><label> ไม่มีสินค้า</label></li>
+                    <li class="radio"><input name="cargo_type" value="2"  type="radio" class="userRatings" {% if rsi.cargo_type == 2 %} checked {% endif %} ><label> สินค้าการเกษตร</label></li>
+                    <li class="radio"><input name="cargo_type" value="3"  type="radio" class="userRatings" {% if rsi.cargo_type == 3 %} checked {% endif %} ><label> วัสดุและอุปกรณ์ก่อสร้าง</label></li>
+                    <li class="radio"><input name="cargo_type" value="4"  type="radio" class="userRatings" {% if rsi.cargo_type == 4 %} checked {% endif %} ><label> สินค้าอุตสาหกรรมและแปรรูป</label></li>
+                    <li class="radio"><input name="cargo_type" value="5"  type="radio" class="userRatings" {% if rsi.cargo_type == 5 %} checked {% endif %} ><label> อื่น ๆ</label></li>
+                </ul>
+                <br>
+                <p>น้ำหนักบรรทุก</p>
+                <br>
+                <ul style="list-style: none;">
+                    <li class="radio"><input name="cargo_weight" value="1"  type="radio" class="userRatings" {% if rsi.cargo_wight == 1 %} checked {% endif %} ><label> ว่าง</label></li>
+                    <li class="radio"><input name="cargo_weight" value="2"  type="radio" class="userRatings" {% if rsi.cargo_wight == 2 %} checked {% endif %} ><label> 1/4</label></li>
+                    <li class="radio"><input name="cargo_weight" value="3"  type="radio" class="userRatings" {% if rsi.cargo_wight == 3 %} checked {% endif %} ><label> 1/2</label></li>
+                    <li class="radio"><input name="cargo_weight" value="4"  type="radio" class="userRatings" {% if rsi.cargo_wight == 4 %} checked {% endif %} ><label> 3/4</label></li>
+                    <li class="radio"><input name="cargo_weight" value="5"  type="radio" class="userRatings" {% if rsi.cargo_wight == 5 %} checked {% endif %} ><label> เต็ม</label></li>
+                </ul>
+            </div>
+            <br>
+            <div class="radiobuttons">
+                <p class="fw-bold" style="font-size: 20px;">ระดับรายได้</p>
+                <br>
+                  <ul style="list-style: none;">
+                    <li class="radio"><input name="income" value="1"  type="radio" class="userRatings" {% if rsi.income == 1 %} checked {% endif %}><label> น้อยกว่า 5,000 บาท</label></li>
+                    <li class="radio"><input name="income" value="2"  type="radio" class="userRatings" {% if rsi.income == 2 %} checked {% endif %} ><label> 5,001-10,000 บาท</label></li>
+                    <li class="radio"><input name="income" value="3"  type="radio" class="userRatings" {% if rsi.income == 3 %} checked {% endif %} ><label> 10,001-15,000 บาท</label></li>
+                    <li class="radio"><input name="income" value="4"  type="radio" class="userRatings" {% if rsi.income == 4 %} checked {% endif %} ><label> 15,001-20,000 บาท</label></li>
+                    <li class="radio"><input name="income" value="5"  type="radio" class="userRatings" {% if rsi.income == 5 %} checked {% endif %} ><label> 20,001-25,000 บาท</label></li>
+                    <li class="radio"><input name="income" value="6"  type="radio" class="userRatings" {% if rsi.income == 6 %} checked {% endif %} ><label> 25,001-30,000 บาท</label></li>
+                    <li class="radio"><input name="income" value="7"  type="radio" class="userRatings" {% if rsi.income == 7 %} checked {% endif %} ><label> มากกว่า 30,000 บาท</label></li>
+                  </ul>
+            </div>
+            <br>
+            <div>
+                <button id="submit" type="submit" class="btn btn-secondary" style="float:right">Submit</button>
+            </div>
+            <br>
+            <br>
+
+
+        </form>
+
+    </div>
+
+{% endblock %}

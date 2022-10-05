@@ -1,0 +1,105 @@
+{% extends "dashboard.html" %}
+{% block title%}{{ name }}{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-5 p-3">
+        <h1 class="text-center fw-bold" style="font-size: 30px;"><strong>ตารางข้อมูลการสำรวจปริมาณการเดินทางริมถนน</strong></h1>
+        <p class="text-center fw-bold" style="font-size: 25px;"><strong>Roadside Interview Survey Table</strong></p>
+        <br>
+        <div class="table-responsive">
+            <table class="table table-primary table-striped mb-0">
+                <thead class="fw-bold">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">รหัสโครงการ</th>
+                      <th scope="col">ชื่อจุดสำรวจ</th>
+                      <th scope="col">ทิศทางการจราจร</th>
+                      <th scope="col">ประเภทยานพาหนะ</th>
+                      <th scope="col">ตำบลจุดเริ่มต้น</th>
+                      <th scope="col">อำเภอจุดเริ่มต้น</th>
+                      <th scope="col">จังหวัดจุดเริ่มต้น</th>
+                      <th scope="col">รหัสพื้นที่จุดเริ่มต้น</th>
+                      <th scope="col">ตำบลจุดปลายทาง</th>
+                      <th scope="col">อำเภอจุดปลายทาง</th>
+                      <th scope="col">จังหวัดจุดปลายทาง</th>
+                      <th scope="col">รหัสพื้นที่จุดปลายทาง</th>
+                      <th scope="col">วัตถุประสงค์การเดินทาง</th>
+                      <th scope="col">จำนวนผู้โดยสาร(1&2)</th>
+                      <th scope="col">จำนวนผู้โดยสาร(3&4)</th>
+                      <th scope="col">จำนวนผู้โดยสาร(5,6,7&8)</th>
+                      <th scope="col">ชนิดสินค้า</th>
+                      <th scope="col">น้ำหนักสินค้า</th>
+                      <th scope="col">ระดับรายได้</th>
+                      <th scope="col">เวลาบันทึกข้อมูล</th>
+                      <th scope="col">การกระทำข้อมูล</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rsi in rsis.items %}
+                    <tr>
+                        <td>{{ rsi.id }}</td>
+                        <td>{{ rsi.project_name }}</td>
+                        <td>{{ rsi.site_name }}</td>
+                        <td>{{ rsi.direction }}</td>
+                        <td>{{ rsi.vehicle_type }}</td>
+                        <td>{{ rsi.addr1_og }}</td>
+                        <td>{{ rsi.addr2_og }}</td>
+                        <td>{{ rsi.addr3_og }}</td>
+                        <td>{{ rsi.zone_og }}</td>
+                        <td>{{ rsi.addr1_dn }}</td>
+                        <td>{{ rsi.addr2_dn }}</td>
+                        <td>{{ rsi.addr3_dn }}</td>
+                        <td>{{ rsi.zone_dn }}</td>
+                        <td>{{ rsi.trip_purpose }}</td>
+                        <td>{{ rsi.passenger12 }}</td>
+                        <td>{{ rsi.passenger34 }}</td>
+                        <td>{{ rsi.passenger58 }}</td>
+                        <td>{{ rsi.cargo_type }}</td>
+                        <td>{{ rsi.cargo_weight }}</td>
+                        <td>{{ rsi.income }}</td>
+                        <td>{{ rsi.crated_at }}</td>
+                        <td class="table-action">
+                            <a href="{{ url_for('rsi.updatersi', id=rsi.id) }}" class="btn btn-success">แก้ไข</a>
+                            <a href= "{{ url_for('rsi.deletersi', id=rsi.id) }}" class="btn btn-danger">ลบ</a>
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+        <br>
+        <div class="container">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item {% if rsis.page == 1 %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('rsi.showtable', page=rsis.prev_num) }}" tabindex="-1" aria-disabled="true">ก่อนหน้า</a>
+                  </li>
+                  {% for page_num in rsis.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                        {% if page_num %}
+                            {% if rsis.page == page_num %}
+                                <li class="page-item active"><a class="page-link" href="{{ url_for('rsi.showtable', page=prev_num) }}">{{ page_num }}</a></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="{{ url_for('rsi.showtable', page=prev_num) }}">{{ page_num }}</a></li>
+                            {% endif %}
+                        {% else %}
+                            ...
+                        {% endif %}
+                  {% endfor %}
+                  <li class="page-item {% if rsis.page == rsis.pages %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('rsi.showtable', page=rsis.next_num) }}">ถัดไป</a>
+                  </li>
+                </ul>
+
+                <p class="text-center mt-3">แสดงหน้าที่ {{ rsis.page }} จากจำนวนหน้าทั้งหมด {{ rsis.pages }} หน้า</p>
+            </nav>
+
+        </div>
+
+    </div>
+
+{% endblock %}

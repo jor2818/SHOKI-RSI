@@ -1,0 +1,32 @@
+{% extends "dashboard.html" %}
+{% block title%}{{ name }}{% endblock %}
+
+{% block content %}
+<div class="contaner mt-5 p-3">
+    <h1 class="text-center fw-bold" style="font-size: 30px;"><strong>การวิเคราะห์ข้อมูลการสำรวจปริมาณการเดินทางริมถนน</strong></h1>
+    <p class="text-center fw-bold" style="font-size: 25px;"><strong>Roadside Interview Survey Analysis</strong></p>
+    <br>
+    <br>
+    <form action="{{ url_for('rsi.visualization') }}" method="post">
+        <div class="form-row">
+            <div class="col">
+              <label class="fw-bold" style="font-size: 20px;"><strong>รหัสโครงการ</strong></label>
+              <input type="name" name="project_name" class="form-control" placeholder="รหัสโครงการ" required>
+            </div>
+            <br>
+            <div class="col">
+              <label class="fw-bold" style="font-size: 20px;"><strong>ชื่อจุดสำรวจ</strong></label>
+              <input type="name" name="site_name" class="form-control" placeholder="ชื่อจุดสำรวจ" required>
+            </div>
+        </div>
+        <br>
+        <div>
+            <button id="submit" type="submit" class="btn btn-secondary" style="float:right">Submit</button>
+        </div>
+
+    </form>
+
+</div>
+
+
+{% endblock %}

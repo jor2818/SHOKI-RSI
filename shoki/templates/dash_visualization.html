@@ -1,0 +1,23 @@
+{% extends "dashboard.html" %}
+{% block title%}{{ name }}{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-3 p-3">
+
+
+    <h1 class="text-center fw-bold" style="font-size: 30px;"><strong>การแสดงผลข้อมูลการสำรวจ</strong></h1>
+    <p class="text-center fw-bold" style="font-size: 25px;"><strong>Roadside Interview Survey Visualization</strong></p>
+    <hr>
+    <div class="container">
+        <!-- <img src="{{ url_for('rsi.visualization') }}" alt=""> -->
+        {{ plot|safe }}
+
+    </div>
+
+
+
+
+</div>
+
+{% endblock %}
