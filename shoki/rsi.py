@@ -6,16 +6,59 @@ import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-import numpy as np
 import seaborn as sns
 import os
-import io
-import mpld3
+from io import BytesIO
+from matplotlib.figure import Figure
+import base64
 
 rsi = Blueprint("rsi",__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+def built_bar(data,var,xlabel,ylabel,rotation=0):
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    g = sns.countplot(data=data, x=var, palette=sns.color_palette('pastel'))
+    g.set_ylabel(ylabel, fontweight='bold', fontsize='14', horizontalalignment='center')
+    g.set_xlabel(xlabel, fontweight='bold', fontsize='14', horizontalalignment='center')
+    #g.set_title(title, fontweight='bold', fontsize='14', horizontalalignment='center')
+    plt.xticks(rotation=rotation, ha='center')
+    buf = BytesIO()
+    plt.tight_layout()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    data = base64.b64encode(buf.getvalue()).decode('utf8')
+    return data
+
+def built_pie(x,y):
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    colors = sns.color_palette('pastel')
+    plt.pie(x, labels=y, autopct='%1.1f%%',colors=colors)
+    plt.axis('equal')
+    buf = BytesIO()
+    plt.tight_layout()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    data = base64.b64encode(buf.getvalue()).decode('utf8')
+    return data
+
+def built_heatmap(x,y):
+    fig = Figure()
+    g = fig.subplots()
+    g = sns.heatmap(pd.crosstab(x, y), cmap="YlGnBu",annot=True)
+    buf = BytesIO()
+    plt.tight_layout()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    data = base64.b64encode(buf.getvalue()).decode('utf8')
+    return data
 
 @rsi.route('/showform', methods=['GET','POST'])
 def showform():
@@ -34,8 +77,8 @@ def addrsi():
     if request.method == 'POST':
         project_name = request.form['project_name']
         site_name = request.form['site_name']
-        direction = int(request.form['direction'])
-        vehicle_type = int(request.form['vehicle_type'])
+        direction = request.form['direction']
+        vehicle_type = request.form['vehicle_type']
         addr1_og = request.form['addr1_og']
         addr2_og = request.form['addr2_og']
         addr3_og = request.form['addr3_og']
@@ -44,26 +87,26 @@ def addrsi():
         addr2_dn = request.form['addr2_dn']
         addr3_dn = request.form['addr3_dn']
         zone_dn = int(request.form['zone_dn'])
-        trip_purpose = int(request.form['trip_purpose'])
-        if str(vehicle_type) == '1' or str(vehicle_type) == '2':
+        trip_purpose = request.form['trip_purpose']
+        if str(vehicle_type) == "จักรยาน/รถจักรยานยนต์" or str(vehicle_type) == "รถยนต์นั่งส่วนบุคคล 4 ล้อ/รถกระบะ/รถโฟวีล":
             passenger12 = int(request.form['passenger12'])
             passenger34 = None
             passenger58 = None
             cargo_type = None
             cargo_weight = None
-        elif str(vehicle_type) == '3' or str(vehicle_type) == '4':
-            passenger34 = int(request.form['passenger34'])
+        elif str(vehicle_type) == "รถสองแถว 4 ล้อ/รถตู้โดยสาร/รถกะป้อ" or str(vehicle_type) == "รถสองแถว 6 ล้อ/รถโดยสาร":
+            passenger34 = request.form['passenger34']
             passenger12 = None
             passenger58 = None
             cargo_type = None
             cargo_weight = None
         else:
             passenger58 = int(request.form['passenger58'])
-            cargo_type = int(request.form['cargo_type'])
-            cargo_weight = int(request.form['cargo_weight'])
+            cargo_type = request.form['cargo_type']
+            cargo_weight = request.form['cargo_weight']
             passenger12 = None
             passenger34 = None
-        income = int(request.form['income'])
+        income = request.form['income']
         surveyor_name = session['username']
         user_id = session['id']
         
@@ -111,8 +154,8 @@ def updatersi(id):
     if request.method == 'POST':
         project_name = request.form['project_name']
         site_name = request.form['site_name']
-        direction = int(request.form['direction'])
-        vehicle_type = int(request.form['vehicle_type'])
+        direction = request.form['direction']
+        vehicle_type = request.form['vehicle_type']
         addr1_og = request.form['addr1_og']
         addr2_og = request.form['addr2_og']
         addr3_og = request.form['addr3_og']
@@ -121,26 +164,26 @@ def updatersi(id):
         addr2_dn = request.form['addr2_dn']
         addr3_dn = request.form['addr3_dn']
         zone_dn = int(request.form['zone_dn'])
-        trip_purpose = int(request.form['trip_purpose'])
-        if str(vehicle_type) == '1' or str(vehicle_type) == '2':
+        trip_purpose = request.form['trip_purpose']
+        if str(vehicle_type) == "จักรยาน/รถจักรยานยนต์" or str(vehicle_type) == "รถยนต์นั่งส่วนบุคคล 4 ล้อ/รถกระบะ/รถโฟวีล":
             passenger12 = int(request.form['passenger12'])
             passenger34 = None
             passenger58 = None
             cargo_type = None
             cargo_weight = None
-        elif str(vehicle_type) == '3' or str(vehicle_type) == '4':
-            passenger34 = int(request.form['passenger34'])
+        elif str(vehicle_type) == "รถสองแถว 4 ล้อ/รถตู้โดยสาร/รถกะป้อ" or str(vehicle_type) == "รถสองแถว 6 ล้อ/รถโดยสาร":
+            passenger34 = request.form['passenger34']
             passenger12 = None
             passenger58 = None
             cargo_type = None
             cargo_weight = None
         else:
             passenger58 = int(request.form['passenger58'])
-            cargo_type = int(request.form['cargo_type'])
-            cargo_weight = int(request.form['cargo_weight'])
+            cargo_type = request.form['cargo_type']
+            cargo_weight = request.form['cargo_weight']
             passenger12 = None
             passenger34 = None
-        income = int(request.form['income'])
+        income = request.form['income']
         surveyor_name = session['username']
         user_id = session['id']
         
@@ -210,78 +253,50 @@ def visualization():
     
     conn = create_engine('sqlite:///' + os.path.join(basedir,'data.sqlite'))
     if request.method == 'POST':
+        
         project_name = str(request.form['project_name'])
         site_name = request.form['site_name']
-        sql ='''SELECT * FROM rsi WHERE (user_id=:user_id) AND (project_name=:project_name) AND (site_name=:site_name)'''
-        df = pd.read_sql(sql, conn, params={'user_id': session['id'],'project_name':project_name,'site_name':site_name})
+        if site_name == 'all' or site_name=='All':            
+            sql ='''SELECT * FROM rsi WHERE (user_id=:user_id) AND (project_name=:project_name)'''
+            df = pd.read_sql(sql, conn, params={'user_id': session['id'],'project_name':project_name})
+        else:
+            sql ='''SELECT * FROM rsi WHERE (user_id=:user_id) AND (project_name=:project_name) AND (site_name=:site_name)'''
+            df = pd.read_sql(sql, conn, params={'user_id': session['id'],'project_name':project_name,'site_name':site_name})
         print(df)
+        
         if df.empty:
             flash("รหัสโครงการและจุดสำรวจที่ท่านเลือกไม่มีข้อมูล!!!","danger")
             return redirect(url_for('rsi.showanalysis'))
         else:
             
-
             vehicleType = df.groupby('vehicle_type')['vehicle_type'].count()
-            veh_labels = []
-            values = []
-            i = 0
-            for label in vehicleType.index:
-                if label == 1:
-                    veh_labels.append('จักรยาน/รถจักรยานยนต์')
-                    values.append(vehicleType.values[i])
-                    i = i + 1
-                elif label == 2:
-                    veh_labels.append('รถยนต์ส่วนบุคคล 4 ล้อ/รถกระบะ/รถโฟวีล')
-                    values.append(vehicleType.values[i])
-                    i = i + 1
-                elif label == 3:
-                    veh_labels.append('รถสองแถว 4 ล้อ/รถตู้โดยสาร/รถกะป้อ')
-                    values.append(vehicleType.values[i])
-                    i = i + 1
-                elif label == 4:
-                    veh_labels.append('รถสองแถว 6 ล้อ/รถโดยสาร')
-                    values.append(vehicleType.values[i])
-                    i = i + 1
-                elif label == 5:
-                    veh_labels.append('รถบรรทุก 4 ล้อ')
-                    values.append(vehicleType.values[i])
-                    i = i + 1
-                elif label == 6:
-                    veh_labels.append('รถบรรทุก 6 ล้อ')
-                    values.append(vehicleType.values[i])
-                    i = i + 1
-                elif label == 7:
-                    veh_labels.append('รถบรรทุก 10 ล้อ')
-                    values.append(vehicleType.values[i])
-                    i = i + 1
-                elif label == 8:
-                    veh_labels.append('รถพ่วง/รถเทรเลอร์')
-                    values.append(vehicleType.values[i])
-                    i = i + 1
-                else:
-                    values.append(0)
+            data1 = built_bar(df,'vehicle_type','ประเภทยานพาหนะ','จำนวน(คัน)',rotation=15)
+            data2 = built_pie(vehicleType.values,vehicleType.index)
+            tripPurpose = df.groupby('trip_purpose')['trip_purpose'].count()
+            data3 = built_bar(df,'trip_purpose','วัตถุประสงค์การเดินทาง','จำนวน(เที่ยว)')
+            data4 = built_pie(tripPurpose.values,tripPurpose.index)
+            cargoType = df.groupby('cargo_type')['cargo_type'].count()
+            data5 = built_bar(df,'cargo_type','ชนิดสินค้า','จำนวน(คัน)')
+            data6 = built_pie(cargoType.values,cargoType.index)
+            cargoWeight = df.groupby('cargo_weight')['cargo_weight'].count()
+            data7 = built_bar(df,'cargo_weight','น้ำหนักสินค้า','จำนวน(คัน)')
+            data8 = built_pie(cargoWeight.values,cargoWeight.index)
+            pass34 = df.groupby('passenger34')['passenger34'].count()
+            data9 = built_bar(df,'passenger34','ปริมาณผู้โดยสาร','จำนวน(คัน)')
+            data10 = built_pie(pass34.values,pass34.index)
+            pc_pass = df.loc[df['passenger12'].notnull(),['passenger12']]
+            data11 = pc_pass.mean()
+            tk_pass = df.loc[df['passenger58'].notnull(),['passenger58']]
+            income = df.groupby('income')['income'].count()
+            data14 = built_bar(df,'income','ระดับรายได้','จำนวน',rotation=15)
+            data15 = built_pie(income.values,income.index)
+            data12 = tk_pass.mean()
+            data13 = built_heatmap(df.zone_og,df.zone_dn)
 
-            x = np.arange(len(veh_labels))     
-            fig, ax = plt.subplots(figsize=(5,5))
-            ax = plt.gca()
-            print(x)
-            print(veh_labels)
-            print(values)
-            vehiclebar = ax.bar(veh_labels, values)
-            ax.set_ylabel('จำนวน (คัน)', fontweight='bold', fontsize='14', horizontalalignment='center')
-            ax.set_title('ประเภทยานพาหนะ',fontsize='20')
-            ax.set_xticks(x)
-            ax.set_xticklabels(labels=veh_labels)
-
-            
-            # ax.pie(values, labels=labels, autopct='%1.1f%%')
-            # ax.axis('equal')
-            
-            #fig.suptitle(u'ประเภทยานพาหนะ', fontsize='20')
-            fig.tight_layout()
-
-
-            return render_template('dash_visualization.html', name='ANALYSIS', plot=mpld3.fig_to_html(fig))
+            return render_template('dash_visualization.html', name='ANALYSIS', data1=data1, data2=data2, data3=data3, 
+                                   data4=data4, data5=data5, data6=data6, data7=data7, data8=data8, data9=data9, data10=data10,
+                                   data11=data11, data12=data12, data13=data13, data14=data14, data15=data15)
             
     
     return render_template('dash_analysis.html', name='ANALYSIS')
+

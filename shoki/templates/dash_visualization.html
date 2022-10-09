@@ -3,17 +3,311 @@
 
 {% block content %}
 
-<div class="container-fluid mt-3 p-3">
+<div class="container-fluid mt-3 p-5">
 
 
     <h1 class="text-center fw-bold" style="font-size: 30px;"><strong>การแสดงผลข้อมูลการสำรวจ</strong></h1>
     <p class="text-center fw-bold" style="font-size: 25px;"><strong>Roadside Interview Survey Visualization</strong></p>
     <hr>
-    <div class="container">
-        <!-- <img src="{{ url_for('rsi.visualization') }}" alt=""> -->
-        {{ plot|safe }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-lg-3 col-xl">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">จำนวนผู้โดยสารเฉลี่ย(รถประเภท 1 และ 2)</h5>
+                            </div>
+                        </div>
+                        <h1 class="display-5 mt-1 mb-3">{{data11.values[0]}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 col-xl">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">จำนวนผู้โดยสารเฉลี่ย(รถประเภท 5 ถึง 8)</h5>
+                            </div>
+                        </div>
+                        <h1 class="display-5 mt-1 mb-3">{{data12.values[0]}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+
+                <div class="col-xl-6 col-xxl-7">
+
+                    <div class="card flex-fill w-100">
+
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">จำนวนยานพาหนะ</h5>
+
+                        </div>
+
+                        <div class="card-body py-3">
+                            <img src="data:image/png;base64,{{data1}}" class="img-fluid">
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="col-xl-6 col-xxl-5 d-flex">
+
+                    <div class="card flex-fill w-100">
+
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">สัดส่วนจำนวนยานพาหนะ</h5>
+
+                        </div>
+
+                        <div class="card-body py-3">
+                            <img src="data:image/png;base64,{{data2}}" class="img-fluid">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+        </div>
+    </div>
+    <div class="container-fluid">
+        
+    
+        <div class="row">
+            <div class="col-xl-6 col-xxl-7">
+
+                <div class="card flex-fill w-100">
+
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">วัตถุประสงค์การเดินทาง</h5>
+
+                    </div>
+
+                    <div class="card-body py-3">
+                        <img src="data:image/png;base64,{{data3}}" class="img-fluid">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xl-6 col-xxl-5 d-flex">   
+                <div class="card flex-fill w-100">
+
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">สัดส่วนวัตถุประสงค์การเดินทาง</h5>
+
+                    </div>
+
+                    <div class="card-body py-3">
+                        <img src="data:image/png;base64,{{data4}}" class="img-fluid">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    
+    </div>
+    <div class="container-fluid">
+        
+    
+        <div class="row">
+            <div class="col-xl-6 col-xxl-7">
+
+                <div class="card flex-fill w-100">
+
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">ประเภทสินค้า</h5>
+
+                    </div>
+
+                    <div class="card-body py-3">
+                        <img src="data:image/png;base64,{{data5}}" class="img-fluid">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xl-6 col-xxl-5 d-flex">   
+                <div class="card flex-fill w-100">
+
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">สัดส่วนประเภทสินค้า</h5>
+
+                    </div>
+
+                    <div class="card-body py-3">
+                        <img src="data:image/png;base64,{{data6}}" class="img-fluid">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    
+    </div>
+    <div class="container-fluid">
+        
+    
+        <div class="row">
+            <div class="col-xl-6 col-xxl-7">
+
+                <div class="card flex-fill w-100">
+
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">น้ำหนักบรรทุกสินค้า</h5>
+
+                    </div>
+
+                    <div class="card-body py-3">
+                        <img src="data:image/png;base64,{{data7}}" class="img-fluid">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xl-6 col-xxl-5 d-flex">   
+                <div class="card flex-fill w-100">
+
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">สัดส่วนน้ำหนักบรรทุก</h5>
+
+                    </div>
+
+                    <div class="card-body py-3">
+                        <img src="data:image/png;base64,{{data8}}" class="img-fluid">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    
+    </div>
+    <div class="container-fluid">
+        
+    
+        <div class="row">
+            <div class="col-xl-6 col-xxl-7">
+
+                <div class="card flex-fill w-100">
+
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">ปริมาณผู้โดยสารรถประเภท 3 และ 4</h5>
+
+                    </div>
+
+                    <div class="card-body py-3">
+                        <img src="data:image/png;base64,{{data9}}" class="img-fluid">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xl-6 col-xxl-5 d-flex">   
+                <div class="card flex-fill w-100">
+
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">สัดส่วนปริมาณผู้โดยสารรถประเภท 3 และ 4</h5>
+
+                    </div>
+
+                    <div class="card-body py-3">
+                        <img src="data:image/png;base64,{{data10}}" class="img-fluid">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    
+    </div>
+    <div class="container-fluid">
+        
+    
+        <div class="row">
+            <div class="col-xl-6 col-xxl-7">
+
+                <div class="card flex-fill w-100">
+
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">ระดับรายได้</h5>
+
+                    </div>
+
+                    <div class="card-body py-3">
+                        <img src="data:image/png;base64,{{data14}}" class="img-fluid">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xl-6 col-xxl-5 d-flex">   
+                <div class="card flex-fill w-100">
+
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">สัดส่วนระดับรายได้</h5>
+
+                    </div>
+
+                    <div class="card-body py-3">
+                        <img src="data:image/png;base64,{{data15}}" class="img-fluid">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-6 col-xxl-7">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">ตารางจุดต้นทางและปลายทางการเดินทาง</h5>
+        
+                    </div>
+                    <div class="card-body py-3">
+                        <img src="data:image/png;base64,{{data13}}" class="img-fluid">
+                    </div>
+    
+                </div>
+
+            </div>
+
+
+        </div>
 
     </div>
+
+    
+    
 
 
 
