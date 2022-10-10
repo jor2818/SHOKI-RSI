@@ -47,8 +47,9 @@
 
                         <div class="card-header">
                             <h5 class="card-title mb-0">จำนวนยานพาหนะ</h5>
-
+                            <a href= "{{ url_for('rsi.exportChart01') }}" class="btn btn-outline-secondary">นำออก</a>
                         </div>
+
 
                         <div class="card-body py-3">
                             <img src="data:image/png;base64,{{data1}}" class="img-fluid">
@@ -66,7 +67,7 @@
 
                         <div class="card-header">
                             <h5 class="card-title mb-0">สัดส่วนจำนวนยานพาหนะ</h5>
-
+                            <a href= "{{ url_for('rsi.exportChart02') }}" class="btn btn-outline-secondary">นำออก</a>
                         </div>
 
                         <div class="card-body py-3">
@@ -90,7 +91,7 @@
 
                     <div class="card-header">
                         <h5 class="card-title mb-0">วัตถุประสงค์การเดินทาง</h5>
-
+                        <a href= "{{ url_for('rsi.exportChart03') }}" class="btn btn-outline-secondary">นำออก</a>
                     </div>
 
                     <div class="card-body py-3">
@@ -105,7 +106,7 @@
 
                     <div class="card-header">
                         <h5 class="card-title mb-0">สัดส่วนวัตถุประสงค์การเดินทาง</h5>
-
+                        <a href= "{{ url_for('rsi.exportChart04') }}" class="btn btn-outline-secondary">นำออก</a>
                     </div>
 
                     <div class="card-body py-3">
@@ -131,7 +132,7 @@
 
                     <div class="card-header">
                         <h5 class="card-title mb-0">ประเภทสินค้า</h5>
-
+                        <a href= "{{ url_for('rsi.exportChart05') }}" class="btn btn-outline-secondary">นำออก</a>
                     </div>
 
                     <div class="card-body py-3">
@@ -146,7 +147,7 @@
 
                     <div class="card-header">
                         <h5 class="card-title mb-0">สัดส่วนประเภทสินค้า</h5>
-
+                        <a href= "{{ url_for('rsi.exportChart06') }}" class="btn btn-outline-secondary">นำออก</a>
                     </div>
 
                     <div class="card-body py-3">
@@ -172,7 +173,7 @@
 
                     <div class="card-header">
                         <h5 class="card-title mb-0">น้ำหนักบรรทุกสินค้า</h5>
-
+                        <a href= "{{ url_for('rsi.exportChart07') }}" class="btn btn-outline-secondary">นำออก</a>
                     </div>
 
                     <div class="card-body py-3">
@@ -187,7 +188,7 @@
 
                     <div class="card-header">
                         <h5 class="card-title mb-0">สัดส่วนน้ำหนักบรรทุก</h5>
-
+                        <a href= "{{ url_for('rsi.exportChart08') }}" class="btn btn-outline-secondary">นำออก</a>
                     </div>
 
                     <div class="card-body py-3">
@@ -213,7 +214,7 @@
 
                     <div class="card-header">
                         <h5 class="card-title mb-0">ปริมาณผู้โดยสารรถประเภท 3 และ 4</h5>
-
+                        <a href= "{{ url_for('rsi.exportChart09') }}" class="btn btn-outline-secondary">นำออก</a>
                     </div>
 
                     <div class="card-body py-3">
@@ -228,7 +229,7 @@
 
                     <div class="card-header">
                         <h5 class="card-title mb-0">สัดส่วนปริมาณผู้โดยสารรถประเภท 3 และ 4</h5>
-
+                        <a href= "{{ url_for('rsi.exportChart10') }}" class="btn btn-outline-secondary">นำออก</a>
                     </div>
 
                     <div class="card-body py-3">
@@ -254,7 +255,7 @@
 
                     <div class="card-header">
                         <h5 class="card-title mb-0">ระดับรายได้</h5>
-
+                        <a href= "{{ url_for('rsi.exportChart11') }}" class="btn btn-outline-secondary">นำออก</a>
                     </div>
 
                     <div class="card-body py-3">
@@ -269,7 +270,7 @@
 
                     <div class="card-header">
                         <h5 class="card-title mb-0">สัดส่วนระดับรายได้</h5>
-
+                        <a href= "{{ url_for('rsi.exportChart12') }}" class="btn btn-outline-secondary">นำออก</a>
                     </div>
 
                     <div class="card-body py-3">
@@ -291,7 +292,7 @@
                 <div class="card flex-fill w-100">
                     <div class="card-header">
                         <h5 class="card-title mb-0">ตารางจุดต้นทางและปลายทางการเดินทาง</h5>
-        
+                        <a href= "{{ url_for('rsi.exportOD') }}" class="btn btn-outline-secondary">นำออก</a>
                     </div>
                     <div class="card-body py-3">
                         <img src="data:image/png;base64,{{data13}}" class="img-fluid">
@@ -299,6 +300,18 @@
     
                 </div>
 
+            </div>
+            <div class="col-md-6 col-lg-3 col-xl">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">การนำออกข้อมูลการสำรวจ</h5>
+                            </div>
+                        </div>
+                        <a href= "{{ url_for('rsi.exportData') }}" class="btn btn-outline-secondary">นำออก</a>
+                    </div>
+                </div>
             </div>
 
 

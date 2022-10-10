@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, redirect, session, flash, request, send_file
+from flask import Blueprint, render_template, url_for, redirect, session, flash, request, send_file, make_response
 from shoki import db
 from .models import User, Rsi
 from sqlalchemy import create_engine, or_
@@ -253,6 +253,7 @@ def visualization():
     
     conn = create_engine('sqlite:///' + os.path.join(basedir,'data.sqlite'))
     if request.method == 'POST':
+        global df
         
         project_name = str(request.form['project_name'])
         site_name = request.form['site_name']
@@ -288,15 +289,300 @@ def visualization():
             data11 = pc_pass.mean()
             tk_pass = df.loc[df['passenger58'].notnull(),['passenger58']]
             income = df.groupby('income')['income'].count()
-            data14 = built_bar(df,'income','ระดับรายได้','จำนวน',rotation=15)
+            data14 = built_bar(df,'income','ระดับรายได้','จำนวน')
             data15 = built_pie(income.values,income.index)
             data12 = tk_pass.mean()
             data13 = built_heatmap(df.zone_og,df.zone_dn)
 
-            return render_template('dash_visualization.html', name='ANALYSIS', data1=data1, data2=data2, data3=data3, 
+            return render_template('dash_visualization.html', name='ANALYSIS', df=df, data1=data1, data2=data2, data3=data3, 
                                    data4=data4, data5=data5, data6=data6, data7=data7, data8=data8, data9=data9, data10=data10,
                                    data11=data11, data12=data12, data13=data13, data14=data14, data15=data15)
             
     
     return render_template('dash_analysis.html', name='ANALYSIS')
 
+@rsi.route('/exportChart01', methods=['GET','POST'])
+def exportChart01():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+             
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    g = sns.countplot(df, x='vehicle_type', palette=sns.color_palette('pastel'))
+    g.set_ylabel('จำนวน(คัน)', fontweight='bold', fontsize='14', horizontalalignment='center')
+    g.set_xlabel('ประเภทยานพาหนะ', fontweight='bold', fontsize='14', horizontalalignment='center')
+
+    plt.xticks(rotation=15, ha='center')
+    plt.tight_layout()
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    
+    return send_file(buf, mimetype='image/png', as_attachment=True, download_name='Chart01.png')
+    
+ 
+@rsi.route('/exportChart02', methods=['GET','POST'])
+def exportChart02():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+    
+    vehicleType = df.groupby('vehicle_type')['vehicle_type'].count()
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    colors = sns.color_palette('pastel')
+    plt.pie(vehicleType.values, labels=vehicleType.index, autopct='%1.1f%%',colors=colors)
+    plt.axis('equal')
+    plt.tight_layout()
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    
+    return send_file(buf, mimetype='image/png', as_attachment=True, download_name='Chart02.png')
+
+@rsi.route('/exportChart03', methods=['GET','POST'])
+def exportChart03():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+             
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    g = sns.countplot(df, x='trip_purpose', palette=sns.color_palette('pastel'))
+    g.set_ylabel('จำนวน(เที่ยว)', fontweight='bold', fontsize='14', horizontalalignment='center')
+    g.set_xlabel('วัตถุประสงค์การเดินทาง', fontweight='bold', fontsize='14', horizontalalignment='center')
+
+    plt.xticks(rotation=0, ha='center')
+    plt.tight_layout()
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    
+    return send_file(buf, mimetype='image/png', as_attachment=True, download_name='Chart03.png')
+
+@rsi.route('/exportChart04', methods=['GET','POST'])
+def exportChart04():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+    
+    tripPurpose = df.groupby('trip_purpose')['trip_purpose'].count()
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    colors = sns.color_palette('pastel')
+    plt.pie(tripPurpose.values, labels=tripPurpose.index, autopct='%1.1f%%',colors=colors)
+    plt.axis('equal')
+    plt.tight_layout()
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    
+    return send_file(buf, mimetype='image/png', as_attachment=True, download_name='Chart04.png')
+
+@rsi.route('/exportChart05', methods=['GET','POST'])
+def exportChart05():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+             
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    g = sns.countplot(df, x='cargo_type', palette=sns.color_palette('pastel'))
+    g.set_ylabel('จำนวน(คัน)', fontweight='bold', fontsize='14', horizontalalignment='center')
+    g.set_xlabel('ชนิดสินค้า', fontweight='bold', fontsize='14', horizontalalignment='center')
+
+    plt.xticks(rotation=0, ha='center')
+    plt.tight_layout()
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    
+    return send_file(buf, mimetype='image/png', as_attachment=True, download_name='Chart05.png')
+
+@rsi.route('/exportChart06', methods=['GET','POST'])
+def exportChart06():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+    
+    cargoType = df.groupby('cargo_type')['cargo_type'].count()
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    colors = sns.color_palette('pastel')
+    plt.pie(cargoType.values, labels=cargoType.index, autopct='%1.1f%%',colors=colors)
+    plt.axis('equal')
+    plt.tight_layout()
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    
+    return send_file(buf, mimetype='image/png', as_attachment=True, download_name='Chart06.png')
+
+@rsi.route('/exportChart07', methods=['GET','POST'])
+def exportChart07():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+             
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    g = sns.countplot(df, x='cargo_weight', palette=sns.color_palette('pastel'))
+    g.set_ylabel('จำนวน(คัน)', fontweight='bold', fontsize='14', horizontalalignment='center')
+    g.set_xlabel('น้ำหนักสินค้า', fontweight='bold', fontsize='14', horizontalalignment='center')
+
+    plt.xticks(rotation=0, ha='center')
+    plt.tight_layout()
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    
+    return send_file(buf, mimetype='image/png', as_attachment=True, download_name='Chart07.png')
+
+@rsi.route('/exportChart08', methods=['GET','POST'])
+def exportChart08():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+    
+    cargoWeight = df.groupby('cargo_weight')['cargo_weight'].count()
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    colors = sns.color_palette('pastel')
+    plt.pie(cargoWeight.values, labels=cargoWeight.index, autopct='%1.1f%%',colors=colors)
+    plt.axis('equal')
+    plt.tight_layout()
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    
+    return send_file(buf, mimetype='image/png', as_attachment=True, download_name='Chart08.png')
+
+@rsi.route('/exportChart09', methods=['GET','POST'])
+def exportChart09():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+             
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    g = sns.countplot(df, x='passenger34', palette=sns.color_palette('pastel'))
+    g.set_ylabel('จำนวน(คัน)', fontweight='bold', fontsize='14', horizontalalignment='center')
+    g.set_xlabel('ปริมาณผู้โดยสาร', fontweight='bold', fontsize='14', horizontalalignment='center')
+
+    plt.xticks(rotation=0, ha='center')
+    plt.tight_layout()
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    
+    return send_file(buf, mimetype='image/png', as_attachment=True, download_name='Chart09.png')
+
+@rsi.route('/exportChart10', methods=['GET','POST'])
+def exportChart10():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+    
+    pass34 = df.groupby('passenger34')['passenger34'].count()
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    colors = sns.color_palette('pastel')
+    plt.pie(pass34.values, labels=pass34.index, autopct='%1.1f%%',colors=colors)
+    plt.axis('equal')
+    plt.tight_layout()
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    
+    return send_file(buf, mimetype='image/png', as_attachment=True, download_name='Chart10.png')
+
+@rsi.route('/exportChart11', methods=['GET','POST'])
+def exportChart11():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+             
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    g = sns.countplot(df, x='income', palette=sns.color_palette('pastel'))
+    g.set_ylabel('จำนวน', fontweight='bold', fontsize='14', horizontalalignment='center')
+    g.set_xlabel('ระดับรายได้', fontweight='bold', fontsize='14', horizontalalignment='center')
+
+    plt.xticks(rotation=0, ha='center')
+    plt.tight_layout()
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    
+    return send_file(buf, mimetype='image/png', as_attachment=True, download_name='Chart11.png')
+
+@rsi.route('/exportChart12', methods=['GET','POST'])
+def exportChart12():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+    
+    income = df.groupby('income')['income'].count()
+    fig = Figure()
+    g = fig.subplots()
+    plt.rcParams['font.family'] = 'tahoma'
+    colors = sns.color_palette('pastel')
+    plt.pie(income.values, labels=income.index, autopct='%1.1f%%',colors=colors)
+    plt.axis('equal')
+    plt.tight_layout()
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    
+    return send_file(buf, mimetype='image/png', as_attachment=True, download_name='Chart12.png')
+
+@rsi.route('/exportOD', methods=['GET','POST'])
+def exportOD():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+    
+        
+    od = pd.crosstab(df.zone_og,df.zone_dn)
+
+    resp = make_response(od.to_csv(index=True,header=True))
+    resp.headers["Content-Disposition"] = "attachment; filename=ExportOD.csv"
+    resp.headers["Content-Type"] = "text/csv" 
+    
+    return resp
+
+@rsi.route('/exportData', methods=['GET','POST'])
+def exportData():
+    
+    if "username" not in session:
+        return redirect(url_for('views.home'))
+    
+    resp = make_response(df.to_csv(index=False, header=True))
+    resp.headers["Content-Disposition"] = "attachment; filename=ExportOD.csv"
+    resp.headers["Content-Type"] = "text/csv" 
+    
+    return resp
