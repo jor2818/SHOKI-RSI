@@ -59,7 +59,11 @@
               {% else %}
               <li><a href="{{ url_for('rsi.showanalysis') }}" class="nav-link px-2 link-dark">การวิเคราะห์ข้อมูล</a></li>
               {% endif %}
-              <li><a href="#" class="nav-link px-2 link-dark">เกี่ยวกับเรา</a></li>
+              {% if name == 'ABOUT' %}
+              <li><a href="{{ url_for('views.about') }}" class="nav-link px-2 link-secondary">เกี่ยวกับเรา</a></li>
+              {% else %}
+              <li><a href="{{ url_for('views.about') }}" class="nav-link px-2 link-dark">เกี่ยวกับเรา</a></li>
+              {% endif %}
             </ul>
     
             {% if name == 'TABLE' %}

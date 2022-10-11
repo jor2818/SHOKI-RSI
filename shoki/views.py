@@ -12,3 +12,7 @@ def home():
 def signup():
     return render_template('signup.html', name="SIGNUP")
 
+@views.route("/about")
+def about():
+    return render_template('about.html', name="ABOUT")
+
