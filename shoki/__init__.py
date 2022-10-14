@@ -22,22 +22,14 @@ app.permanent_session_lifetime = timedelta(minutes=45)
 db = SQLAlchemy(app)
 Migrate(app,db)
 
-
 from .views import views
 from .auth import auth
 from .rsi import rsi
-#from .tripass import tripass
-#from .eetrip import eetrip
-#from .me import me
-#from .shortpath import shortpath
 
 # create the Views Blueprint
 app.register_blueprint(views, url_prefix='/')
 app.register_blueprint(auth, url_prefix='/')
 app.register_blueprint(rsi, url_prefix='/')
-#app.register_blueprint(tripass, url_prefix='/')
-#app.register_blueprint(eetrip, url_prefix='/')
-#app.register_blueprint(me, url_prefix='/')
-#app.register_blueprint(shortpath, url_prefix='/')
+
 
     
